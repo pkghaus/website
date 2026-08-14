@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Current upstream releases, built from source for Debian, from a signed APT archive.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>pkg.haus</title>
+<script defer src="/zk/js/script.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init({ endpoint: "/zk/api/event" })
+</script>
+</head>
+<body>
+<style>
+  :root {
+    --paper: #FFFFFF;
+    --panel: #F7F7F5;
+    --ink: #141414;
+    --muted: #6B6B66;
+    --line: #E4E4DF;
+    --accent: #E0421B;
+    --code-bg: #F7F6F3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0E0E0E;
+      --panel: #161616;
+      --ink: #F0F0EC;
+      --muted: #8F8F88;
+      --line: #2A2A27;
+      --accent: #F0603C;
+      --code-bg: #131311;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0E0E0E;
+    --panel: #161616;
+    --ink: #F0F0EC;
+    --muted: #8F8F88;
+    --line: #2A2A27;
+    --accent: #F0603C;
+    --code-bg: #131311;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 1.25rem 4rem;
+  }
+  .mono, code, pre { font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace; }
+  main { max-width: 46rem; margin: 0 auto; }
+
+  header.mast {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 2.75rem 0 1.5rem;
+    border-bottom: 3px solid var(--ink);
+    flex-wrap: wrap;
+  }
+  .wordmark {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: clamp(1.9rem, 6vw, 2.6rem);
+    letter-spacing: -.03em;
+    margin: 0;
+    line-height: 1;
+  }
+  .wordmark .dot { color: var(--accent); }
+  .tagline { flex-basis: 100%; color: var(--muted); margin: .75rem 0 0; max-width: 38rem; }
+
+  section { border-bottom: 1px solid var(--line); padding: 2rem 0; }
+  section:last-of-type { border-bottom: none; }
+  h2 {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 1rem;
+  }
+  h2::before { content: "~ "; color: var(--accent); }
+  h2 a { color: inherit; text-decoration: none; }
+  h2 a:hover, h2 a:focus-visible { color: var(--accent); text-decoration: none; }
+  p { margin: .6rem 0; }
+
+  .codewrap { position: relative; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-size: .82rem;
+    line-height: 1.6;
+    margin: .75rem 0;
+  }
+  button.copy {
+    position: absolute;
+    top: .55rem;
+    right: .55rem;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .68rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: .25rem .55rem;
+    cursor: pointer;
+  }
+  button.copy:hover, button.copy:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+
+  /* Hand-tinted shell tokens; red marks the two values the reader edits. */
+  pre .c-cmd, pre .c-key { font-weight: 600; }
+  pre .c-mut { color: var(--muted); }
+  pre .c-var { color: var(--accent); font-style: italic; }
+
+  .suitepick { display: flex; gap: .4rem; flex-wrap: wrap; margin: .75rem 0 0; }
+  button.suitechip {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .72rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--muted);
+    padding: .25rem .6rem;
+    cursor: pointer;
+  }
+  button.suitechip:hover, button.suitechip:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+  button.suitechip[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+  table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+  .tablewrap { overflow-x: auto; }
+  th, td { text-align: left; padding: .5rem .75rem .5rem 0; border-bottom: 1px dashed var(--line); }
+  th {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  td code { font-variant-numeric: tabular-nums; font-size: .85rem; }
+  .chip {
+    display: inline-block;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .72rem;
+    border: 1px solid var(--line);
+    padding: .1rem .5rem;
+    margin-right: .35rem;
+    color: var(--muted);
+  }
+
+  ul.facts { list-style: none; margin: 0; padding: 0; }
+  ul.facts li { padding: .45rem 0; border-bottom: 1px dashed var(--line); }
+  ul.facts li:last-child { border-bottom: none; }
+  ul.facts b { font-weight: 600; }
+
+  .fpr {
+    background: var(--code-bg);
+    border: 1px dashed var(--line);
+    padding: .9rem 1.1rem;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .85rem;
+    letter-spacing: .06em;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .fpr b { color: var(--accent); font-weight: 600; }
+
+  footer {
+    padding-top: 1.5rem;
+    border-top: 3px solid var(--ink);
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover, a:focus-visible { text-decoration: underline; outline: none; }
+  footer a { color: inherit; }
+  footer a:hover { color: var(--accent); }
+</style>
+
+<main>
+  <header class="mast">
+    <svg width="80" height="80" viewBox="0 0 64 64" role="img" aria-label="pkg.haus - a taped parcel with a haus stenciled on its face">
+      <path d="M32 8 L54 19 V45 L32 56 L10 45 V19 Z" fill="var(--paper)"/>
+      <g stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" fill="none">
+        <path d="M10 19 L32 30 L54 19"/>
+        <path d="M32 30 V56"/>
+        <path d="M32 8 L54 19 V45 L32 56 L10 45 V19 Z"/>
+      </g>
+      <path d="M17 15.5 L25 11.5 L47 22.5 L47 28.5 L45.7 27.2 L44.3 29.8 L43 28.5 L41.7 31.2 L40.3 29.8 L39 32.5 L39 26.5 Z" fill="var(--accent)"/>
+      <path d="M21 20 L27 26 V33 H15 V26 Z" fill="currentColor" transform="matrix(1,0.5,0,1,0,0)"/>
+    </svg>
+    <h1 class="wordmark">pkg<span class="dot">.</span>haus</h1>
+    <p class="tagline">What Debian doesn't ship, packaged as if it did.</p>
+  </header>
+
+  <section id="use-the-archive">
+    <h2><a href="#use-the-archive">Use the archive</a></h2>
+    <p>Fetch the signing keyring and add the source. Pick the suite matching
+    your Debian release:</p>
+    <div class="suitepick" role="group" aria-label="Suite">
+      <button class="suitechip" data-suite="trixie" aria-pressed="true">stable - Debian 13 (trixie)</button>
+      <button class="suitechip" data-suite="testing" aria-pressed="false">testing</button>
+      <button class="suitechip" data-suite="unstable" aria-pressed="false">unstable</button>
+    </div>
+    <div class="codewrap">
+      <button class="copy" data-target="setup">copy</button>
+<pre id="setup"><code><span class="c-cmd">sudo curl</span> <span class="c-mut">-fsSL -o</span> /usr/share/keyrings/pkghaus-archive-keyring.gpg <span class="c-mut">\</span>
+    https://apt.pkg.haus/pkghaus-archive-keyring.gpg
+
+<span class="c-cmd">sudo tee</span> /etc/apt/sources.list.d/pkghaus.sources <span class="c-mut">&gt; /dev/null &lt;&lt;EOF</span>
+<span class="c-key">Types:</span> deb
+<span class="c-key">URIs:</span> https://apt.pkg.haus
+<span class="c-key">Suites:</span> <span class="c-var" id="suite-value">trixie</span>
+<span class="c-key">Components:</span> main
+<span class="c-key">Signed-By:</span> /usr/share/keyrings/pkghaus-archive-keyring.gpg
+<span class="c-mut">EOF</span>
+
+<span class="c-cmd">sudo apt update</span>
+<span class="c-cmd">sudo apt install</span> <span class="c-var">&lt;package&gt;</span></code></pre>
+    </div>
+  </section>
+
+  <section id="suites">
+    <h2><a href="#suites">One release, three suites</a></h2>
+    <p>Each upstream release is built three times - once per suite, against that
+    suite's libraries. The version qualifier carries the suite; qualifiers order
+    below the plain version, so upgrading your system from stable towards
+    unstable upgrades these packages rather than fighting them.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Suite</th><th>Example version</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>stable (trixie)</td><td><code>0.23.3-1~haus13+1</code></td></tr>
+          <tr><td>testing</td><td><code>0.23.3-1~testing1</code></td></tr>
+          <tr><td>unstable</td><td><code>0.23.3-1</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><span class="chip">amd64</span><span class="chip">arm64</span>
+    <span class="chip">main</span></p>
+  </section>
+
+  <section id="how-its-built">
+    <h2><a href="#how-its-built">How it's built</a></h2>
+    <ul class="facts">
+      <li><b>From source, at upstream tags.</b> Each release triggers the
+      ingest, which builds the packaging repository's newest tag with
+      per-suite builder images and adds only what the archive lacks.</li>
+      <li><b>Natively per architecture.</b> amd64 and arm64 build on their own
+      runners - nothing is emulated.</li>
+      <li><b>Immutable pool.</b> Published files never change; different bytes
+      always mean a new version.</li>
+      <li><b>Open end to end.</b> Packaging repositories, the
+      <a href="https://github.com/pkghaus/action-debian-build">build action</a>
+      and the <a href="https://github.com/pkghaus/apt">archive machinery</a> are
+      public - every package is reproducible from its tag.</li>
+    </ul>
+  </section>
+
+  <section id="signing-key">
+    <h2><a href="#signing-key">Signing key</a></h2>
+    <p>The archive is signed; APT verifies every release against the keyring
+    fetched above. The key's primary fingerprint, for independent
+    verification:</p>
+    <div class="fpr"><b>79C1 BBCB E46F A8B9 EBAC</b> C930 20F9 23EB 99EC 1720</div>
+  </section>
+
+  <footer>
+    <a href="https://github.com/pkghaus">github.com/pkghaus</a>
+    <a href="https://apt.pkg.haus">apt.pkg.haus</a>
+    <span>Apache-2.0</span>
+  </footer>
+</main>
+
+<script>
+  document.querySelectorAll("button.copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = document.getElementById(btn.dataset.target).innerText;
+      function done(ok) {
+        btn.textContent = ok ? "copied" : "select + copy";
+        setTimeout(function () { btn.textContent = "copy"; }, 1600);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+      } else { done(false); }
+    });
+  });
+
+  var suiteValue = document.getElementById("suite-value");
+  document.querySelectorAll("button.suitechip").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      suiteValue.textContent = btn.dataset.suite;
+      document.querySelectorAll("button.suitechip").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+    });
+  });
+</script>
+</body>
+</html>
