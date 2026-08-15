@@ -228,8 +228,11 @@
 <span class="c-mut">EOF</span>
 
 <span class="c-cmd">sudo apt update</span>
-<span class="c-cmd">sudo apt install</span> <span class="c-var">&lt;package&gt;</span></code></pre>
+<span class="c-cmd">sudo apt install</span> pkghaus-archive-keyring <span class="c-var">&lt;package&gt;</span></code></pre>
     </div>
+    <p><code>pkghaus-archive-keyring</code> takes over the manually fetched
+    trust anchor: key rotations then arrive as ordinary signed package
+    updates.</p>
   </section>
 
   <section id="suites">
