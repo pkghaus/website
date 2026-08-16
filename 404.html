@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="This page is not here.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>pkg.haus</title>
+<style>
+  :root {
+    --paper: #FFFFFF; --ink: #141414; --muted: #6B6B66;
+    --line: #E4E4DF; --accent: #E0421B;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0E0E0E; --ink: #F0F0EC; --muted: #8F8F88;
+      --line: #2A2A27; --accent: #F0603C;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    line-height: 1.55; margin: 0; padding: 0 1.25rem 4rem;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+  header {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    padding: 2.25rem 0 1.25rem; border-bottom: 3px solid var(--ink);
+  }
+  h1 {
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+    font-size: clamp(1.9rem, 6vw, 2.6rem); letter-spacing: -.03em;
+    margin: 0; line-height: 1;
+  }
+  h1 .dot { color: var(--accent); }
+  h1 a { color: inherit; text-decoration: none; }
+  h1 a:hover { color: var(--accent); }
+  .tagline { flex-basis: 100%; color: var(--muted); margin: .75rem 0 0; max-width: 38rem; }
+  section { padding: 2rem 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <svg width="80" height="80" viewBox="0 0 64 64" role="img" aria-label="pkg.haus - a taped parcel with a haus stenciled on its face">
+      <path d="M32 8 L54 19 V45 L32 56 L10 45 V19 Z" fill="var(--paper)"/>
+      <g stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" fill="none">
+        <path d="M10 19 L32 30 L54 19"/>
+        <path d="M32 30 V56"/>
+        <path d="M32 8 L54 19 V45 L32 56 L10 45 V19 Z"/>
+      </g>
+      <path d="M17 15.5 L25 11.5 L47 22.5 L47 28.5 L45.7 27.2 L44.3 29.8 L43 28.5 L41.7 31.2 L40.3 29.8 L39 32.5 L39 26.5 Z" fill="var(--accent)"/>
+      <path d="M21 20 L27 26 V33 H15 V26 Z" fill="currentColor" transform="matrix(1,0.5,0,1,0,0)"/>
+    </svg>
+    <h1><a href="/">pkg<span class="dot">.</span>haus</a></h1>
+    <p class="tagline">404. This page is not here.</p>
+  </header>
+  <section>
+    <p>Start from the <a href="/">front page</a>, browse the
+    <a href="https://apt.pkg.haus">archive</a>, or check the
+    <a href="https://apt.pkg.haus/stats">download stats</a>.</p>
+  </section>
+</main>
+</body>
+</html>
