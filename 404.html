@@ -9,12 +9,12 @@
 <style>
   :root {
     --paper: #FFFFFF; --ink: #141414; --muted: #6B6B66;
-    --line: #E4E4DF; --accent: #E0421B;
+    --line: #E4E4DF; --accent: #E0421B; --accent-text: #CC3B18;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --paper: #0E0E0E; --ink: #F0F0EC; --muted: #8F8F88;
-      --line: #2A2A27; --accent: #F0603C;
+      --line: #2A2A27; --accent: #F0603C; --accent-text: #F0603C;
     }
   }
   * { box-sizing: border-box; }
@@ -38,7 +38,7 @@
   h1 a:hover { color: var(--accent); }
   .tagline { flex-basis: 100%; color: var(--muted); margin: .75rem 0 0; max-width: 38rem; }
   section { padding: 2rem 0; }
-  a { color: var(--accent); text-decoration: none; }
+  a { color: var(--accent-text); text-decoration: none; }
   a:hover { text-decoration: underline; }
 </style>
 </head>

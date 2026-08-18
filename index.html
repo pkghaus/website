@@ -21,6 +21,10 @@
     --muted: #6B6B66;
     --line: #E4E4DF;
     --accent: #E0421B;
+    /* Brand red is 4.23:1 on white: fine for the mark, wordmark dots
+       and headings (large text, 3:1), short of the 4.5:1 small text
+       needs. Small text takes a darker step. Dark mode passes. */
+    --accent-text: #CC3B18;
     --code-bg: #F7F6F3;
   }
   @media (prefers-color-scheme: dark) {
@@ -31,6 +35,7 @@
       --muted: #8F8F88;
       --line: #2A2A27;
       --accent: #F0603C;
+      --accent-text: #F0603C;
       --code-bg: #131311;
     }
   }
@@ -41,6 +46,7 @@
     --muted: #8F8F88;
     --line: #2A2A27;
     --accent: #F0603C;
+    --accent-text: #F0603C;
     --code-bg: #131311;
   }
   * { box-sizing: border-box; }
@@ -85,9 +91,9 @@
     color: var(--muted);
     margin: 0 0 1rem;
   }
-  h2::before { content: "~ "; color: var(--accent); }
+  h2::before { content: "~ "; color: var(--accent-text); }
   h2 a { color: inherit; text-decoration: none; }
-  h2 a:hover, h2 a:focus-visible { color: var(--accent); text-decoration: none; }
+  h2 a:hover, h2 a:focus-visible { color: var(--accent-text); text-decoration: none; }
   p { margin: .6rem 0; }
 
   .codewrap { position: relative; }
@@ -115,12 +121,12 @@
     padding: .25rem .55rem;
     cursor: pointer;
   }
-  button.copy:hover, button.copy:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+  button.copy:hover, button.copy:focus-visible { color: var(--accent-text); border-color: var(--accent); outline: none; }
 
   /* Hand-tinted shell tokens; red marks the two values the reader edits. */
   pre .c-cmd, pre .c-key { font-weight: 600; }
   pre .c-mut { color: var(--muted); }
-  pre .c-var { color: var(--accent); font-style: italic; }
+  pre .c-var { color: var(--accent-text); font-style: italic; }
 
   .suitepick { display: flex; gap: .4rem; flex-wrap: wrap; margin: .75rem 0 0; }
   button.suitechip {
@@ -132,8 +138,8 @@
     padding: .25rem .6rem;
     cursor: pointer;
   }
-  button.suitechip:hover, button.suitechip:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
-  button.suitechip[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); font-weight: 600; }
+  button.suitechip:hover, button.suitechip:focus-visible { color: var(--accent-text); border-color: var(--accent); outline: none; }
+  button.suitechip[aria-pressed="true"] { color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
 
   table { border-collapse: collapse; width: 100%; font-size: .92rem; }
   .tablewrap { overflow-x: auto; }
@@ -172,7 +178,7 @@
     overflow-x: auto;
     white-space: nowrap;
   }
-  .fpr b { color: var(--accent); font-weight: 600; }
+  .fpr b { color: var(--accent-text); font-weight: 600; }
 
   footer {
     padding-top: 1.5rem;
@@ -183,10 +189,10 @@
     font-size: .85rem;
     color: var(--muted);
   }
-  a { color: var(--accent); text-decoration: none; }
+  a { color: var(--accent-text); text-decoration: none; }
   a:hover, a:focus-visible { text-decoration: underline; outline: none; }
   footer a { color: inherit; }
-  footer a:hover { color: var(--accent); }
+  footer a:hover { color: var(--accent-text); }
 </style>
 
 <main>
