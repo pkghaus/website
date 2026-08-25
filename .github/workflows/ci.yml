@@ -1,0 +1,64 @@
+name: CI
+
+# The site is served by Pages straight off this branch, so nothing between a
+# push and production checks anything. These are the failures that would
+# otherwise be silent: a reference to a file that is no longer here, an
+# in-page link to a heading that was renamed, and an RFC 9116 security.txt
+# that has passed its own Expires date.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  # Structure cannot rot on its own, but the security.txt Expires date can:
+  # it is a fixed timestamp on a static file and nothing else in the estate
+  # would notice it lapsing. Weekly, with the warning window on, so the one
+  # manual edit it needs a year is asked for three months early rather than
+  # discovered by a researcher who then has no valid way to report anything.
+  schedule:
+    - cron: '41 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Check the site
+        env:
+          # Only the scheduled run enforces the expiry window. A push should
+          # not start failing one day just because the calendar moved.
+          EXPIRY_WARN_DAYS: ${{ github.event_name == 'schedule' && '90' || '0' }}
+        run: scripts/check-site.sh
+
+      - name: shellcheck
+        # Pinned by digest rather than taken from the runner image, whose
+        # shellcheck moves on its own schedule and differs at info level.
+        run: |
+          docker run --rm \
+            --volume "$PWD:/repo" \
+            --workdir /repo \
+            koalaman/shellcheck@sha256:61862eba1fcf09a484ebcc6feea46f1782532571a34ed51fedf90dd25f925a8d \
+            scripts/*.sh
+
+      - name: actionlint
+        # Pinned by digest; go-yaml inside it also rejects duplicate mapping
+        # keys, which GitHub's parser rejects but many local checks accept.
+        run: |
+          docker run --rm \
+            --volume "$PWD:/repo" \
+            --workdir /repo \
+            rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 \
+            -color
