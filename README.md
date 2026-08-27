@@ -3,7 +3,7 @@
 The apex landing page: one static file, no build step.
 
 Preview locally by opening `index.html`; pushes to master deploy to
-https://pkg.haus via GitHub Pages.
+https://pkg.haus as Cloudflare Workers static assets.
 
 ## License
 

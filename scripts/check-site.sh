@@ -67,12 +67,17 @@ for field in Contact Expires Canonical; do
     fi
 done
 
+# The hostname comes from the Worker's route, which is what actually serves
+# this site. It used to come from CNAME, a GitHub Pages artifact that was
+# deleted when the site stopped being served by Pages.
 canonical="$(sed -n 's/^Canonical: *//p' "$sec")"
-host="$(cat CNAME)"
-if [ "$canonical" = "https://$host/.well-known/security.txt" ]; then
-    note "ok   Canonical matches CNAME ($host)"
+host="$(sed -n 's|.*pattern = "\([^/]*\)/\*".*|\1|p' worker/wrangler.toml)"
+if [ -z "$host" ]; then
+    bad "no route pattern in worker/wrangler.toml; cannot check Canonical"
+elif [ "$canonical" = "https://$host/.well-known/security.txt" ]; then
+    note "ok   Canonical matches the Worker route ($host)"
 else
-    bad "Canonical [$canonical] does not match CNAME [$host]"
+    bad "Canonical [$canonical] does not match the route host [$host]"
 fi
 
 expires="$(sed -n 's/^Expires: *//p' "$sec")"
