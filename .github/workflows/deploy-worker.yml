@@ -1,0 +1,52 @@
+name: Deploy the site worker
+
+# Every file in this repository except .github/, scripts/ and worker/ is a
+# published asset, so any push to master can change what the site serves. No
+# path filter: filtering to worker/** would leave a content change deployed to
+# Pages and not to the Worker that actually serves the host.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# The site is one Worker; two concurrent deploys would race.
+concurrency:
+  group: deploy-site-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install
+        working-directory: worker
+        run: npm ci
+
+      # The asset set is this repository minus .assetsignore. Assert the entry
+      # point is there rather than discovering an empty upload in production.
+      - name: Check the site is present
+        run: |
+          test -f index.html
+          test -f 404.html
+          test -f .well-known/security.txt
+
+      - name: Deploy
+        working-directory: worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.PKGHAUS_WEBSITE_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy

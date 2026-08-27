@@ -1,0 +1,13 @@
+# Everything here is published at pkg.haus/<path>. Wrangler uploads dotfiles
+# and dot-directories, so anything not part of the site has to be named.
+#
+# .git/ above all: a scratch deploy during this migration published
+# /.git/config, /.git/HEAD and /.git/index before this line existed. The repo
+# is public so nothing was secret, but a served .git directory lets anyone
+# reconstruct the working tree and is a plain vulnerability on any repo that
+# is not.
+.git/
+.github/
+scripts/
+worker/
+node_modules/
