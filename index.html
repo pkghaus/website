@@ -267,13 +267,14 @@
     <h2><a href="#how-its-built">How it's built</a></h2>
     <ul class="facts">
       <li><b>From source, at upstream tags.</b> Each release triggers the
-      ingest, which builds the packaging repository's newest tag with
-      per-suite builder images and adds only what the archive lacks.</li>
+      ingest, which builds that package's newest tag with per-suite
+      builder images and adds only what the archive lacks.</li>
       <li><b>Natively per architecture.</b> amd64 and arm64 build on their own
       runners - nothing is emulated.</li>
       <li><b>Immutable pool.</b> Published files never change; different bytes
       always mean a new version.</li>
-      <li><b>Open end to end.</b> Packaging repositories, the
+      <li><b>Open end to end.</b> The
+      <a href="https://github.com/pkghaus/packages">packaging</a>, the
       <a href="https://github.com/pkghaus/action-debian-build">build action</a>
       and the <a href="https://github.com/pkghaus/apt">archive machinery</a> are
       public - every package is reproducible from its tag.</li>
