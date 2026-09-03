@@ -10,3 +10,19 @@ updates:
       interval: weekly
     commit-message:
       prefix: "ci"
+
+  # wrangler is pinned exactly and runs with a token that can deploy the worker
+  # serving pkg.haus. Pinning is what stops it changing on its own; this is
+  # what stops it going stale.
+  #
+  # The directory is /worker, not /. apt and buildinfos gained this entry on
+  # 2026-09-02 and this repo was missed, so worker/package.json had no
+  # scheduled coverage at all. Note the failure is silent in both directions:
+  # an entry pointing at a directory with no manifest finds nothing and
+  # reports nothing, which reads exactly like coverage.
+  - package-ecosystem: npm
+    directory: /worker
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps"
