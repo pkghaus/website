@@ -15,11 +15,10 @@ updates:
   # serving pkg.haus. Pinning is what stops it changing on its own; this is
   # what stops it going stale.
   #
-  # The directory is /worker, not /. apt and buildinfos gained this entry on
-  # 2026-09-02 and this repo was missed, so worker/package.json had no
-  # scheduled coverage at all. Note the failure is silent in both directions:
-  # an entry pointing at a directory with no manifest finds nothing and
-  # reports nothing, which reads exactly like coverage.
+  # The directory is /worker, not /. The failure is silent in both directions:
+  # an entry pointing at a directory with no manifest finds nothing and reports
+  # nothing, which reads exactly like coverage. Check the path, not the
+  # presence of a config.
   - package-ecosystem: npm
     directory: /worker
     schedule:

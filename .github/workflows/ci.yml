@@ -1,10 +1,9 @@
 name: CI
 
-# The site is served by Pages straight off this branch, so nothing between a
-# push and production checks anything. These are the failures that would
-# otherwise be silent: a reference to a file that is no longer here, an
-# in-page link to a heading that was renamed, and an RFC 9116 security.txt
-# that has passed its own Expires date.
+# The site deploys straight from this branch, so nothing between a push and
+# production checks anything. These are the failures that would otherwise be
+# silent: a reference to a file that is not here, an in-page link to a heading
+# that was renamed, and an RFC 9116 security.txt past its own Expires date.
 
 on:
   push:
