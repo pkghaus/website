@@ -28,7 +28,7 @@
     --code-bg: #F7F6F3;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
+    :root {
       --paper: #0E0E0E;
       --panel: #161616;
       --ink: #F0F0EC;
@@ -39,16 +39,6 @@
       --code-bg: #131311;
     }
   }
-  :root[data-theme="dark"] {
-    --paper: #0E0E0E;
-    --panel: #161616;
-    --ink: #F0F0EC;
-    --muted: #8F8F88;
-    --line: #2A2A27;
-    --accent: #F0603C;
-    --accent-text: #F0603C;
-    --code-bg: #131311;
-  }
   * { box-sizing: border-box; }
   body {
     background: var(--paper);
@@ -58,7 +48,7 @@
     margin: 0;
     padding: 0 1.25rem 4rem;
   }
-  .mono, code, pre { font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace; }
+  .mono, code, pre { font-family: ui-monospace, Menlo, Consolas, monospace; }
   main { max-width: 46rem; margin: 0 auto; }
 
   header.mast {
@@ -71,11 +61,11 @@
   }
   .wordmark {
     font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-weight: 700;
     font-size: clamp(1.9rem, 6vw, 2.6rem);
     letter-spacing: -.03em;
     margin: 0;
-    line-height: 1;
+    line-height: 1.15;
+    min-width: 0;
   }
   .wordmark .dot { color: var(--accent); }
   .tagline { flex-basis: 100%; color: var(--muted); margin: .75rem 0 0; max-width: 38rem; }
@@ -181,8 +171,9 @@
   .fpr b { color: var(--accent-text); font-weight: 600; }
 
   footer {
-    padding-top: 1.5rem;
     border-top: 3px solid var(--ink);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
@@ -277,7 +268,7 @@
       <a href="https://github.com/pkghaus/packages">packaging</a>, the
       <a href="https://github.com/pkghaus/action-debian-build">build action</a>
       and the <a href="https://github.com/pkghaus/apt">archive machinery</a> are
-      public - every package is reproducible from its tag.</li>
+      public, and every build publishes the record needed to reproduce it.</li>
       <li><b>Checkable builds.</b> Every published version's build record and the
       source package it was built from are at
       <a href="https://buildinfos.pkg.haus">buildinfos.pkg.haus</a>, so the line
