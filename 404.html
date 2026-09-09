@@ -38,7 +38,10 @@
   }
   h1 .dot { color: var(--accent); }
   h1 a { color: inherit; text-decoration: none; }
-  h1 a:hover { color: var(--accent); }
+  h1 a:hover {
+    text-decoration: underline; text-decoration-color: var(--accent);
+    text-underline-offset: .18em; text-decoration-thickness: .07em;
+  }
   .tagline { flex-basis: 100%; color: var(--muted); margin: .75rem 0 0; max-width: 38rem; }
   section { padding: 2rem 0; }
   section:last-of-type { padding-bottom: 0; }
