@@ -28,6 +28,9 @@
     display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
     padding: 2.25rem 0 1.25rem; border-bottom: 3px solid var(--ink);
   }
+  /* The clear space under the header's rule: the same on every page of
+     every host, and the same as the space above the footer's. */
+  header + * { margin-top: 0; padding-top: 2rem; }
   h1 {
     font-family: ui-monospace, Menlo, Consolas, monospace;
     font-size: clamp(1.9rem, 6vw, 2.6rem); letter-spacing: -.03em;

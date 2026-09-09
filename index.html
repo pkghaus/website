@@ -59,6 +59,9 @@
     border-bottom: 3px solid var(--ink);
     flex-wrap: wrap;
   }
+  /* The clear space under the header's rule: the same on every page of
+     every host, and the same as the space above the footer's. */
+  header + * { margin-top: 0; padding-top: 2rem; }
   .wordmark {
     font-family: ui-monospace, Menlo, Consolas, monospace;
     font-size: clamp(1.9rem, 6vw, 2.6rem);
@@ -132,8 +135,8 @@
   button.suitechip[aria-pressed="true"] { color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
 
   table { border-collapse: collapse; width: 100%; font-size: .92rem; }
-  .tablewrap { overflow-x: auto; }
-  th, td { text-align: left; padding: .5rem .75rem .5rem 0; border-bottom: 1px dashed var(--line); }
+  .tablewrap { overflow-x: auto; padding: 1.5rem 0; }
+  th, td { text-align: left; padding: .5rem .75rem .5rem 0; border-bottom: 1px dashed var(--line); vertical-align: top; }
   th {
     font-family: ui-monospace, Menlo, Consolas, monospace;
     font-size: .7rem;
@@ -147,9 +150,12 @@
     display: inline-block;
     font-family: ui-monospace, Menlo, Consolas, monospace;
     font-size: .72rem;
+    font-weight: 600;
     border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--muted) 8%, var(--paper));
     padding: .1rem .5rem;
     margin-right: .35rem;
+    white-space: nowrap;
     color: var(--muted);
   }
 
