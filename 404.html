@@ -29,9 +29,9 @@
     padding: 2.25rem 0 1.25rem; border-bottom: 3px solid var(--ink);
   }
   h1 {
-    font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
     font-size: clamp(1.9rem, 6vw, 2.6rem); letter-spacing: -.03em;
-    margin: 0; line-height: 1;
+    margin: 0; line-height: 1.15; min-width: 0;
   }
   h1 .dot { color: var(--accent); }
   h1 a { color: inherit; text-decoration: none; }
@@ -40,6 +40,18 @@
   section { padding: 2rem 0; }
   a { color: var(--accent-text); text-decoration: none; }
   a:hover { text-decoration: underline; }
+  footer {
+    border-top: 3px solid var(--ink);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  footer a { color: inherit; }
+  footer a:hover { color: var(--accent-text); }
 </style>
 </head>
 <body>
@@ -63,6 +75,13 @@
     <a href="https://apt.pkg.haus">archive</a>, or check the
     <a href="https://apt.pkg.haus/stats">download stats</a>.</p>
   </section>
+  <footer>
+    <a href="https://github.com/pkghaus">github.com/pkghaus</a>
+    <a href="https://apt.pkg.haus">apt.pkg.haus</a>
+    <a href="https://buildinfos.pkg.haus">buildinfos.pkg.haus</a>
+    <a href="https://apt.pkg.haus/stats">stats</a>
+    <span>Apache-2.0</span>
+  </footer>
 </main>
 </body>
 </html>
