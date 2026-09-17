@@ -11,3 +11,5 @@
 scripts/
 worker/
 node_modules/
+LICENSE
+README.md

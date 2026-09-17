@@ -23,6 +23,12 @@ note() { printf '  %s\n' "$1"; }
 bad() { printf '  FAIL %s\n' "$1"; fail=1; }
 
 html=(*.html)
+# A glob matching nothing expands to itself, and the grep that then fails does
+# so inside a process substitution, where set -e cannot see it: both link
+# checks would examine zero files and this would still print "site checks
+# passed". Note *.html is root-only, so a page under a subdirectory is out of
+# scope and this is what says so.
+[ -e "${html[0]}" ] || bad "no .html at the repo root; the link checks examined nothing"
 
 # Local assets: href/src values that are neither absolute URLs, in-page
 # anchors, nor the analytics proxy path the edge serves rather than the repo.
@@ -80,15 +86,26 @@ else
 fi
 
 expires="$(sed -n 's/^Expires: *//p' "$sec")"
-left=$(( ( $(date -u -d "$expires" +%s) - $(date -u +%s) ) / 86400 ))
-if [ "$left" -le 0 ]; then
-    bad "security.txt expired $(( -left )) days ago; set Expires a year out"
-elif [ "$left" -lt "${EXPIRY_WARN_DAYS:-0}" ]; then
-    bad "security.txt expires in $left days; set Expires a year out"
+if ! exp_epoch="$(date -u -d "$expires" +%s 2>/dev/null)"; then
+    # Without this the failed substitution left the arithmetic below a unary
+    # minus on the current epoch, and an unparseable date was reported as an
+    # expiry twenty thousand days ago.
+    bad "cannot parse Expires [$expires] in security.txt"
 else
-    note "ok   security.txt expires in $left days"
+    left=$(( (exp_epoch - $(date -u +%s)) / 86400 ))
+    if [ "$left" -le 0 ]; then
+        bad "security.txt expired $(( -left )) days ago; set Expires a year out"
+    elif [ "$left" -lt "${EXPIRY_WARN_DAYS:-0}" ]; then
+        bad "security.txt expires in $left days; set Expires a year out"
+    else
+        note "ok   security.txt expires in $left days"
+    fi
 fi
 
 echo
-[ "$fail" -eq 0 ] && echo "site checks passed" || echo "site checks FAILED"
+if [ "$fail" -eq 0 ]; then
+    echo "site checks passed"
+else
+    echo "site checks FAILED"
+fi
 exit "$fail"
