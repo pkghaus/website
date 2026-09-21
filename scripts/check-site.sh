@@ -102,6 +102,35 @@ else
     fi
 fi
 
+# A sibling host is named by its label, the apex by its full name. Four full
+# hostnames plus the licence measured about 800px in a 736px column and
+# wrapped, and a new host lengthens every footer in the estate at once. Every
+# other surface asserts this in its own test suite; these two pages are hand
+# written and this file is the only thing that reads them.
+echo
+for page in "${html[@]}"; do
+    foot="$(sed -n '/<footer>/,/<\/footer>/p' "$page")"
+    if [ -z "$foot" ]; then
+        bad "$page has no footer"
+        continue
+    fi
+    for pair in "apt.pkg.haus:apt" "buildinfos.pkg.haus:buildinfos" \
+                "reproducible.pkg.haus:reproducible"; do
+        host="${pair%%:*}"; label="${pair##*:}"
+        if printf '%s' "$foot" | grep -q "href=\"https://$host\">$label</a>"; then
+            note "ok   $page names $host by its label"
+        else
+            bad "$page must link $host as <a ...>$label</a>, not by hostname"
+        fi
+    done
+    # The apex and github keep their full names: the first is the domain
+    # itself, the second is not on it and a label alone would be ambiguous.
+    printf '%s' "$foot" | grep -q '>pkg\.haus</a>' \
+        || bad "$page must link the apex as pkg.haus"
+    printf '%s' "$foot" | grep -q '>github\.com/pkghaus</a>' \
+        || bad "$page must link github.com/pkghaus whole"
+done
+
 echo
 if [ "$fail" -eq 0 ]; then
     echo "site checks passed"
