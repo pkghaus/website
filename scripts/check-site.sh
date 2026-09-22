@@ -131,6 +131,19 @@ for page in "${html[@]}"; do
         || bad "$page must link github.com/pkghaus whole"
 done
 
+# A section boundary is 3.5rem of gap with its rule in the middle. Set
+# 2026-09-22 across the landing, buildinfos and reproducible; stats already
+# had it. This page was the mildest of the three at 4rem - the Worker pages
+# were at 5.5rem - but a boundary that differs between siblings is the thing
+# the registry exists to stop. Pinned because the value drifts back on the
+# next edit and nobody notices half a rem.
+# The estate style registry carries the reasoning.
+if grep -q 'section { border-bottom: 1px solid var(--line); padding: 1.75rem 0; }' index.html; then
+    note "ok   sections are 1.75rem a side, so a boundary is 3.5rem"
+else
+    bad "sections must use padding: 1.75rem 0 (see web-style.md, Layout)"
+fi
+
 echo
 if [ "$fail" -eq 0 ]; then
     echo "site checks passed"

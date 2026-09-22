@@ -76,7 +76,9 @@
   }
   .tagline { flex-basis: 100%; color: var(--muted); margin: .75rem 0 0; max-width: 38rem; }
 
-  section { border-bottom: 1px solid var(--line); padding: 2rem 0; }
+  /* 1.75rem a side, so a section boundary is 3.5rem of gap with its rule in
+     the middle. The registry states the outcome; see web-style.md. */
+  section { border-bottom: 1px solid var(--line); padding: 1.75rem 0; }
   section:last-of-type { border-bottom: none; padding-bottom: 0; }
   h2 {
     font-family: ui-monospace, Menlo, Consolas, monospace;
