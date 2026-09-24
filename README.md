@@ -1,10 +1,10 @@
-# pkg.haus website
+# website
 
-The apex landing page: hand-written HTML, no build step. `index.html`, a
-branded `404.html`, and `.well-known/security.txt`.
+The landing page at [pkg.haus](https://pkg.haus): hand-written HTML, no build
+step. `index.html`, a branded `404.html`, and `.well-known/security.txt`.
 
-Preview locally by opening `index.html`; pushes to master deploy to
-https://pkg.haus as Cloudflare Workers static assets. `worker/` carries only
+Preview locally by opening `index.html`; pushes to master deploy it as
+Cloudflare Workers static assets. `worker/` carries only
 the wrangler config and its pinned CLI -- there is no Worker script, so a
 request matching no file gets the 404 page from the asset layer itself.
 
