@@ -141,7 +141,7 @@ done
 if grep -q 'section { border-bottom: 1px solid var(--line); padding: 1.75rem 0; }' index.html; then
     note "ok   sections are 1.75rem a side, so a boundary is 3.5rem"
 else
-    bad "sections must use padding: 1.75rem 0 (see web-style.md, Layout)"
+    bad "sections must use padding: 1.75rem 0 (see the estate style registry, Layout)"
 fi
 
 echo
