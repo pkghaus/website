@@ -15,6 +15,6 @@ routes = [
 # keeps everything that is not the site out.
 directory = ".."
 
-# Without this a miss returns 404 with an EMPTY body, losing the 404.html that
-# Pages serves today. Measured both ways against a scratch Worker.
+# Without this a miss returns 404 with an EMPTY body instead of 404.html.
+# Measured both ways against a scratch Worker.
 not_found_handling = "404-page"
