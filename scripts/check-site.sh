@@ -3,8 +3,8 @@
 # What can go wrong on a hand-written static site without anyone noticing:
 # a local asset renamed and its reference left behind, an in-page anchor
 # pointing at a heading that was retitled, and an RFC 9116 security.txt
-# quietly passing its Expires date. None of these fail a deploy. Legacy
-# Pages serves whatever is on the branch.
+# quietly passing its Expires date. None of these fail a deploy: the site
+# Worker serves whatever is on master.
 #
 #   scripts/check-site.sh            structure only
 #   EXPIRY_WARN_DAYS=90 ...          also fail when security.txt is near expiry
