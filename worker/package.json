@@ -3,7 +3,7 @@
   "private": true,
   "description": "Deploy config for the Worker that serves pkg.haus as static assets.",
   "devDependencies": {
-    "wrangler": "4.149.0"
+    "wrangler": "4.151.1"
   },
   "overrides": {
     "sharp": "^0.35.5"
